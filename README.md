@@ -36,3 +36,10 @@ make run-qemu
 ## WIP
 
 -> Add FileSystem support.
+
+## Some links
+
+### Operating System Development
+
+- http://a.michelizza.free.fr/pmwiki.php?n=TutoOS.TutoOS
+- http://wiki.osdev.org
