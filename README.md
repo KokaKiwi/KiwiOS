@@ -27,10 +27,11 @@ make run-qemu
 
 ## To-Do
 
-- [ ] Add a FileSystem support.
-- [ ] Add a userspace.
-- [ ] Add a process system.
-- [ ] Add graphics! <3
+- &#x25A3; Do a barrell roll.
+- &#x25A2; Add a FileSystem support.
+- &#x25A2; Add a userspace.
+- &#x25A2; Add a process system.
+- &#x25A2; Add graphics! <3
 
 ## WIP
 

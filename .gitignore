@@ -13,4 +13,5 @@ project.sublime-workspace
 # Autotools
 *.log
 *.status
+autom4te.cache
 Makefile
