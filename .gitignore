@@ -1,0 +1,16 @@
+# Objects files
+*.o
+target
+
+# Executable/Libraries
+*.so
+*.iso
+
+# Sublime Text 2
+project.sublime-project
+project.sublime-workspace
+
+# Autotools
+*.log
+*.status
+Makefile
