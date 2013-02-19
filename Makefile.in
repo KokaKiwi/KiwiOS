@@ -75,9 +75,9 @@ $(BINDIR)/kernel:	$(OBJS)
 	@$(END) "AS" "`printf "Assembled  : %-25s -> %s" "$^" "$@"`"
 
 %.s:				%.c
-	@$(BEG) "CC" "`printf "Generating  : %-25s -> %s" "$^" "$@"`"
+	@$(BEG) "CC" "`printf "Generating : %-25s -> %s" "$^" "$@"`"
 	@$(CC) $(CAFLAGS) -o $@ $^
-	@$(END) "CC" "`printf "Generated   : %-25s -> %s" "$^" "$@"`"
+	@$(END) "CC" "`printf "Generated  : %-25s -> %s" "$^" "$@"`"
 
 clean-asm:
 	@$(BEGRM) "RM" "Removing assembly files..."
@@ -88,17 +88,15 @@ clean:				clean-asm
 	@$(BEGRM) "RM" "Removing object files..."
 	@$(RM) $(RMFLAGS) $(OBJS)
 	@$(ENDRM) "RM" "Removed object files."
-
-fclean:				clean
 	@$(BEGRM) "RM" "Removing executables..."
 	@$(RM) $(RMFLAGS) $(BINDIR)/kernel $(NAME)
 	@$(ENDRM) "RM" "Removed executables."
 
-re:					fclean all
+re:					clean all
 
-re-asm:				fclean asm
+re-asm:				clean-asm asm
 
 run-qemu:			$(NAME)
 	$(QEMU) $(QEMUARGS) -cdrom $(NAME)
 
-.PHONY:				all clean-asm clean fclean re re-asm
+.PHONY:				all clean-asm clean re re-asm

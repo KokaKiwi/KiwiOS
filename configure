@@ -2089,6 +2089,8 @@ else
 
 fi
 
+echo "Additionnals compilation flags: $CFLAGS_WALL $CFLAGS_DEBUG"
+
 
 keymap=${KEYMAP:-FR_FR}
 keymap=${keymap^^}

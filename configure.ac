@@ -32,6 +32,8 @@ AS_IF([test "x$enable_debug" != xno],
       	]
 )
 
+echo "Additionnals compilation flags: $CFLAGS_WALL $CFLAGS_DEBUG"
+
 AC_ARG_VAR([KEYMAP], [Define used keymap.])
 keymap=${KEYMAP:-FR_FR}
 keymap=${keymap^^}
