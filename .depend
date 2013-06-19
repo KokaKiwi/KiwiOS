@@ -1,0 +1,342 @@
+vmm.o: src/sys/mm/vmm.c include/pmm.h include/stdint.h \
+ include/bits/wordsize.h include/stddef.h include/vmm.h include/idt.h \
+ include/string.h include/utils/panic.h
+
+include/pmm.h:
+
+include/stdint.h:
+
+include/bits/wordsize.h:
+
+include/stddef.h:
+
+include/vmm.h:
+
+include/idt.h:
+
+include/string.h:
+
+include/utils/panic.h:
+heap.o: src/sys/mm/heap.c include/heap.h include/stddef.h \
+ include/stdint.h include/bits/wordsize.h include/pmm.h include/vmm.h \
+ include/stdio.h include/stdarg.h include/sys/krnl.h include/stdint.h \
+ include/stdarg.h include/list.h
+
+include/heap.h:
+
+include/stddef.h:
+
+include/stdint.h:
+
+include/bits/wordsize.h:
+
+include/pmm.h:
+
+include/vmm.h:
+
+include/stdio.h:
+
+include/stdarg.h:
+
+include/sys/krnl.h:
+
+include/stdint.h:
+
+include/stdarg.h:
+
+include/list.h:
+pmm.o: src/sys/mm/pmm.c include/pmm.h include/stdint.h \
+ include/bits/wordsize.h include/stddef.h include/vmm.h \
+ include/utils/panic.h include/stdio.h include/stdarg.h \
+ include/sys/krnl.h include/stdint.h include/stdarg.h include/list.h \
+ include/string.h
+
+include/pmm.h:
+
+include/stdint.h:
+
+include/bits/wordsize.h:
+
+include/stddef.h:
+
+include/vmm.h:
+
+include/utils/panic.h:
+
+include/stdio.h:
+
+include/stdarg.h:
+
+include/sys/krnl.h:
+
+include/stdint.h:
+
+include/stdarg.h:
+
+include/list.h:
+
+include/string.h:
+panic.o: src/sys/utils/panic.c include/utils/panic.h include/sys/io.h \
+ include/stdio.h include/stddef.h include/stdint.h \
+ include/bits/wordsize.h include/stdarg.h include/sys/krnl.h \
+ include/stdint.h include/stdarg.h include/list.h
+
+include/utils/panic.h:
+
+include/sys/io.h:
+
+include/stdio.h:
+
+include/stddef.h:
+
+include/stdint.h:
+
+include/bits/wordsize.h:
+
+include/stdarg.h:
+
+include/sys/krnl.h:
+
+include/stdint.h:
+
+include/stdarg.h:
+
+include/list.h:
+gdt.o: src/sys/krnl/gdt.c include/gdt.h include/stdint.h \
+ include/bits/wordsize.h include/string.h include/stddef.h
+
+include/gdt.h:
+
+include/stdint.h:
+
+include/bits/wordsize.h:
+
+include/string.h:
+
+include/stddef.h:
+start.o: src/sys/krnl/start.c include/gnu/multiboot.h include/stdint.h \
+ include/bits/wordsize.h include/sys/io.h include/stddef.h \
+ include/stdint.h include/stdio.h include/stddef.h include/stdarg.h \
+ include/sys/krnl.h include/stdarg.h include/list.h include/stdlib.h \
+ include/string.h include/gdt.h include/idt.h include/vmm.h include/pmm.h \
+ include/heap.h include/vga.h
+
+include/gnu/multiboot.h:
+
+include/stdint.h:
+
+include/bits/wordsize.h:
+
+include/sys/io.h:
+
+include/stddef.h:
+
+include/stdint.h:
+
+include/stdio.h:
+
+include/stddef.h:
+
+include/stdarg.h:
+
+include/sys/krnl.h:
+
+include/stdarg.h:
+
+include/list.h:
+
+include/stdlib.h:
+
+include/string.h:
+
+include/gdt.h:
+
+include/idt.h:
+
+include/vmm.h:
+
+include/pmm.h:
+
+include/heap.h:
+
+include/vga.h:
+krnl.o: src/sys/krnl/krnl.c include/sys/krnl.h include/stdint.h \
+ include/bits/wordsize.h include/stdarg.h include/vga.h include/stdint.h \
+ include/sys/krnl.h
+
+include/sys/krnl.h:
+
+include/stdint.h:
+
+include/bits/wordsize.h:
+
+include/stdarg.h:
+
+include/vga.h:
+
+include/stdint.h:
+
+include/sys/krnl.h:
+idt.o: src/sys/krnl/idt.c include/idt.h include/stdint.h \
+ include/bits/wordsize.h include/string.h include/stddef.h \
+ include/stdio.h include/stdarg.h include/sys/krnl.h include/stdint.h \
+ include/stdarg.h include/list.h include/sys/io.h
+
+include/idt.h:
+
+include/stdint.h:
+
+include/bits/wordsize.h:
+
+include/string.h:
+
+include/stddef.h:
+
+include/stdio.h:
+
+include/stdarg.h:
+
+include/sys/krnl.h:
+
+include/stdint.h:
+
+include/stdarg.h:
+
+include/list.h:
+
+include/sys/io.h:
+assert.o: src/lib/assert.c include/assert.h include/utils/panic.h \
+ include/stdio.h include/stddef.h include/stdint.h \
+ include/bits/wordsize.h include/stdarg.h include/sys/krnl.h \
+ include/stdint.h include/stdarg.h include/list.h
+
+include/assert.h:
+
+include/utils/panic.h:
+
+include/stdio.h:
+
+include/stddef.h:
+
+include/stdint.h:
+
+include/bits/wordsize.h:
+
+include/stdarg.h:
+
+include/sys/krnl.h:
+
+include/stdint.h:
+
+include/stdarg.h:
+
+include/list.h:
+crypt.o: src/lib/crypt.c
+math.o: src/lib/math.c include/math.h
+
+include/math.h:
+stdio.o: src/lib/stdio.c include/stdlib.h include/stddef.h \
+ include/stdint.h include/bits/wordsize.h include/stdint.h \
+ include/stdio.h include/stddef.h include/stdarg.h include/sys/krnl.h \
+ include/stdarg.h include/list.h include/string.h
+
+include/stdlib.h:
+
+include/stddef.h:
+
+include/stdint.h:
+
+include/bits/wordsize.h:
+
+include/stdint.h:
+
+include/stdio.h:
+
+include/stddef.h:
+
+include/stdarg.h:
+
+include/sys/krnl.h:
+
+include/stdarg.h:
+
+include/list.h:
+
+include/string.h:
+stdlib.o: src/lib/stdlib.c include/stdlib.h include/stddef.h \
+ include/stdint.h include/bits/wordsize.h include/stdint.h include/heap.h \
+ include/stddef.h
+
+include/stdlib.h:
+
+include/stddef.h:
+
+include/stdint.h:
+
+include/bits/wordsize.h:
+
+include/stdint.h:
+
+include/heap.h:
+
+include/stddef.h:
+string.o: src/lib/string.c include/string.h include/stddef.h \
+ include/stdint.h include/bits/wordsize.h include/stdlib.h \
+ include/stddef.h include/stdint.h
+
+include/string.h:
+
+include/stddef.h:
+
+include/stdint.h:
+
+include/bits/wordsize.h:
+
+include/stdlib.h:
+
+include/stddef.h:
+
+include/stdint.h:
+vga.o: src/lib/vga.c include/vga.h include/stdint.h \
+ include/bits/wordsize.h include/sys/krnl.h include/stdint.h \
+ include/stdarg.h include/sys/io.h include/utils/panic.h include/stdio.h \
+ include/stddef.h include/stdarg.h include/list.h include/string.h
+
+include/vga.h:
+
+include/stdint.h:
+
+include/bits/wordsize.h:
+
+include/sys/krnl.h:
+
+include/stdint.h:
+
+include/stdarg.h:
+
+include/sys/io.h:
+
+include/utils/panic.h:
+
+include/stdio.h:
+
+include/stddef.h:
+
+include/stdarg.h:
+
+include/list.h:
+
+include/string.h:
+list.o: src/lib/list.c include/list.h include/stddef.h include/stdint.h \
+ include/bits/wordsize.h
+
+include/list.h:
+
+include/stddef.h:
+
+include/stdint.h:
+
+include/bits/wordsize.h:
+ctype.o: src/lib/ctype.c include/ctype.h
+
+include/ctype.h:

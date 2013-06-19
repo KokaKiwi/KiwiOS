@@ -103,7 +103,7 @@ void vga_putchar(char c)
             default:
                 *vram_c = c;
                 *(vram_c + 1) = vga_state.attribute;
-                
+
                 vga_state.x++;
                 if (vga_state.x > 79)
                 {

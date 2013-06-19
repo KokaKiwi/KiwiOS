@@ -18,7 +18,7 @@ void init_gdt()
     memcpy((void *) kgdtr.base, (void *) kgdt, kgdtr.limit);
 
     asm("lgdtl (kgdtr)");
-    
+
     asm("movw $0x10, %ax     \n \
          movw %ax, %ds       \n \
          movw %ax, %es       \n \

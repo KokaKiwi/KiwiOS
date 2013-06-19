@@ -1,0 +1,521 @@
+
+Allocating common symbols
+Common symbol       size              file
+
+kgdtr               0x6               src/sys/krnl/gdt.o
+kgdt                0x7f8             src/sys/krnl/gdt.o
+pmm_mmap            0x4               src/sys/mm/pmm.o
+interrupt_handlers  0x400             src/sys/krnl/idt.o
+kidt                0x800             src/sys/krnl/idt.o
+kidtr               0x6               src/sys/krnl/idt.o
+page_directory      0x4               src/sys/mm/vmm.o
+pmm_memsize         0x4               src/sys/mm/pmm.o
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+*default*        0x0000000000000000 0xffffffffffffffff
+
+Linker script and memory map
+
+
+.__mbHeader     0x0000000000100000       0x46
+ *(.__mbHeader)
+ .__mbHeader    0x0000000000100000       0x46 src/boot/boot.o
+                0x0000000000100030                _start
+
+.eh_frame       0x0000000000100048      0xb50
+ .eh_frame      0x0000000000100048      0x118 src/sys/mm/vmm.o
+ .eh_frame      0x0000000000100160       0xe0 src/sys/mm/heap.o
+                                         0xf8 (size before relaxing)
+ .eh_frame      0x0000000000100240       0xac src/sys/mm/pmm.o
+                                         0xc4 (size before relaxing)
+ .eh_frame      0x00000000001002ec       0x1c src/sys/utils/panic.o
+                                         0x34 (size before relaxing)
+ .eh_frame      0x0000000000100308       0x40 src/sys/krnl/gdt.o
+                                         0x58 (size before relaxing)
+ .eh_frame      0x0000000000100348       0x20 src/sys/krnl/start.o
+                                         0x38 (size before relaxing)
+ .eh_frame      0x0000000000100368       0xa0 src/sys/krnl/idt.o
+                                         0xb8 (size before relaxing)
+ .eh_frame      0x0000000000100408       0x20 src/lib/assert.o
+                                         0x38 (size before relaxing)
+ .eh_frame      0x0000000000100428       0x20 src/lib/math.o
+                                         0x38 (size before relaxing)
+ .eh_frame      0x0000000000100448      0x108 src/lib/stdio.o
+                                        0x120 (size before relaxing)
+ .eh_frame      0x0000000000100550      0x140 src/lib/stdlib.o
+                                        0x158 (size before relaxing)
+ .eh_frame      0x0000000000100690      0x160 src/lib/string.o
+                                        0x178 (size before relaxing)
+ .eh_frame      0x00000000001007f0      0x108 src/lib/vga.o
+                                        0x120 (size before relaxing)
+ .eh_frame      0x00000000001008f8      0x2a0 src/lib/list.o
+                                        0x2b8 (size before relaxing)
+
+.text           0x0000000000100ba0     0x3460
+                0x0000000000100ba0                code = .
+ *(.text)
+ .text          0x0000000000100ba0      0x2b0 src/sys/mm/vmm.o
+                0x0000000000100ba0                init_vmm
+                0x0000000000100cab                vmm_map
+                0x0000000000100cf8                vmm_unmap
+                0x0000000000100d29                vmm_create_pd_entry
+                0x0000000000100d9b                vmm_get
+                0x0000000000100e0f                vmm_switch_page_directory
+                0x0000000000100e1c                vmm_enable_paging
+                0x0000000000100e2c                page_fault
+ .text          0x0000000000100e50      0x377 src/sys/mm/heap.o
+                0x0000000000100e50                init_heap
+                0x0000000000100e55                heap_malloc
+                0x0000000000100f5e                heap_free
+                0x0000000000100f87                heap_alloc_chunk
+                0x0000000000100fcd                heap_free_chunk
+                0x0000000000101048                heap_split_chunk
+                0x00000000001010d8                heap_glue_chunk
+ *fill*         0x00000000001011c7        0x1 
+ .text          0x00000000001011c8      0x1a4 src/sys/mm/pmm.o
+                0x00000000001011c8                pmm_mmap_set
+                0x0000000000101201                pmm_mmap_unset
+                0x0000000000101236                init_pmm
+                0x00000000001012b1                pmm_alloc_page
+                0x0000000000101356                pmm_free_page
+ .text          0x000000000010136c       0x4e src/sys/utils/panic.o
+                0x000000000010136c                __panic
+ *fill*         0x00000000001013ba        0x2 
+ .text          0x00000000001013bc      0x19f src/sys/krnl/gdt.o
+                0x00000000001013bc                init_gdt
+                0x00000000001014c4                init_gdt_entry
+ *fill*         0x000000000010155b        0x1 
+ .text          0x000000000010155c       0x8a src/sys/krnl/start.o
+                0x000000000010155c                start
+ *fill*         0x00000000001015e6        0x2 
+ .text          0x00000000001015e8        0x0 src/sys/krnl/krnl.o
+ .text          0x00000000001015e8      0x8c3 src/sys/krnl/idt.o
+                0x00000000001015e8                init_idt
+                0x0000000000101dcc                init_idt_entry
+                0x0000000000101e12                register_interrupt_handler
+                0x0000000000101e2e                isr_handler
+                0x0000000000101e5c                irq_handler
+ *fill*         0x0000000000101eab        0x1 
+ .text          0x0000000000101eac       0x27 src/lib/assert.o
+                0x0000000000101eac                __assert
+ *fill*         0x0000000000101ed3        0x1 
+ .text          0x0000000000101ed4        0x0 src/lib/crypt.o
+ .text          0x0000000000101ed4       0x4d src/lib/math.o
+                0x0000000000101ed4                pow
+ *fill*         0x0000000000101f21        0x3 
+ .text          0x0000000000101f24      0x3c3 src/lib/stdio.o
+                0x0000000000102010                vsprintf
+                0x0000000000102201                putchar
+                0x000000000010221d                puts
+                0x0000000000102232                print
+                0x0000000000102245                println
+                0x0000000000102264                printf
+                0x00000000001022ba                sprintf
+ *fill*         0x00000000001022e7        0x1 
+ .text          0x00000000001022e8      0x1bb src/lib/stdlib.o
+                0x00000000001022e8                rand
+                0x000000000010232f                abs
+                0x000000000010233f                labs
+                0x000000000010234f                atoi
+                0x00000000001023b7                div
+                0x000000000010240c                ldiv
+                0x000000000010245c                malloc
+                0x000000000010246f                calloc
+                0x0000000000102486                realloc
+                0x0000000000102490                free
+ *fill*         0x00000000001024a3        0x1 
+ .text          0x00000000001024a4      0x2cb src/lib/string.o
+                0x00000000001024a4                memcpy
+                0x00000000001024d2                memset
+                0x0000000000102506                memcmp
+                0x0000000000102577                strcpy
+                0x000000000010259e                strncpy
+                0x00000000001025cc                strlen
+                0x00000000001025f4                strcmp
+                0x000000000010265d                strdup
+                0x0000000000102699                strcat
+                0x00000000001026e4                strncat
+                0x000000000010273c                strchr
+ *fill*         0x000000000010276f        0x1 
+ .text          0x0000000000102770      0x4bf src/lib/vga.o
+                0x0000000000102770                vga_putchar
+                0x0000000000102a54                vga_puts
+                0x0000000000102a82                vga_clear
+                0x0000000000102ab7                vga_scroll
+                0x0000000000102b36                vga_move_cursor
+                0x0000000000102b92                vga_show_cursor
+                0x0000000000102bbc                vga_hide_cursor
+                0x0000000000102bda                vga_init
+ *fill*         0x0000000000102c2f        0x1 
+ .text          0x0000000000102c30      0x397 src/lib/list.o
+                0x0000000000102c30                INIT_LIST_HEAD
+                0x0000000000102d27                list_add
+                0x0000000000102d4b                list_add_tail
+                0x0000000000102d6e                list_del
+                0x0000000000102da0                list_replace
+                0x0000000000102dd1                list_del_init
+                0x0000000000102def                list_move
+                0x0000000000102e14                list_move_tail
+                0x0000000000102e39                list_is_last
+                0x0000000000102e4d                list_empty
+                0x0000000000102e61                list_rotate_left
+                0x0000000000102e93                list_is_singular
+                0x0000000000102ec5                list_cut_position
+                0x0000000000102f30                list_splice
+                0x0000000000102f63                list_splice_tail
+                0x0000000000102f95                list_length
+ *fill*         0x0000000000102fc7        0x1 
+ .text          0x0000000000102fc8        0x0 src/lib/ctype.o
+ *fill*         0x0000000000102fc8        0x8 
+ .text          0x0000000000102fd0      0x22a src/sys/krnl/idt_s.o
+                0x0000000000103028                isr0
+                0x000000000010302f                isr1
+                0x0000000000103036                isr2
+                0x000000000010303d                isr3
+                0x0000000000103044                isr4
+                0x000000000010304b                isr5
+                0x0000000000103055                isr6
+                0x000000000010305f                isr7
+                0x0000000000103069                isr8
+                0x0000000000103071                isr9
+                0x000000000010307b                isr10
+                0x0000000000103083                isr11
+                0x000000000010308b                isr12
+                0x0000000000103093                isr13
+                0x000000000010309b                isr14
+                0x00000000001030a3                isr15
+                0x00000000001030ad                isr16
+                0x00000000001030b7                isr17
+                0x00000000001030c1                isr18
+                0x00000000001030cb                isr19
+                0x00000000001030d5                isr20
+                0x00000000001030df                isr21
+                0x00000000001030e9                isr22
+                0x00000000001030f3                isr23
+                0x00000000001030fd                isr24
+                0x0000000000103107                isr25
+                0x0000000000103111                isr26
+                0x000000000010311b                isr27
+                0x0000000000103125                isr28
+                0x000000000010312f                isr29
+                0x0000000000103139                isr30
+                0x0000000000103143                isr31
+                0x000000000010314d                isr255
+                0x000000000010315a                irq0
+                0x0000000000103164                irq1
+                0x000000000010316e                irq2
+                0x0000000000103178                irq3
+                0x0000000000103182                irq4
+                0x000000000010318c                irq5
+                0x0000000000103196                irq6
+                0x00000000001031a0                irq7
+                0x00000000001031aa                irq8
+                0x00000000001031b4                irq9
+                0x00000000001031be                irq10
+                0x00000000001031c8                irq11
+                0x00000000001031d2                irq12
+                0x00000000001031dc                irq13
+                0x00000000001031e6                irq14
+                0x00000000001031f0                irq15
+                0x0000000000104000                . = ALIGN (0x1000)
+ *fill*         0x00000000001031fa      0xe06 
+
+.iplt           0x0000000000104000        0x0
+ .iplt          0x0000000000000000        0x0 src/sys/mm/vmm.o
+
+.rel.dyn        0x0000000000104000        0x0
+ .rel.iplt      0x0000000000000000        0x0 src/sys/mm/vmm.o
+ .rel.text      0x0000000000000000        0x0 src/sys/mm/vmm.o
+ .rel.__mbHeader
+                0x0000000000000000        0x0 src/sys/mm/vmm.o
+
+.data           0x0000000000104000     0x2000
+                0x0000000000104000                data = .
+ *(.data)
+ .data          0x0000000000104000        0x0 src/sys/mm/vmm.o
+ .data          0x0000000000104000        0x4 src/sys/mm/heap.o
+                0x0000000000104000                heap_max
+ .data          0x0000000000104004        0x0 src/sys/mm/pmm.o
+ .data          0x0000000000104004        0x0 src/sys/utils/panic.o
+ .data          0x0000000000104004        0x0 src/sys/krnl/gdt.o
+ .data          0x0000000000104004        0x0 src/sys/krnl/start.o
+ .data          0x0000000000104004        0x0 src/sys/krnl/krnl.o
+ .data          0x0000000000104004        0x0 src/sys/krnl/idt.o
+ .data          0x0000000000104004        0x0 src/lib/assert.o
+ .data          0x0000000000104004        0x0 src/lib/crypt.o
+ .data          0x0000000000104004        0x0 src/lib/math.o
+ .data          0x0000000000104004        0x8 src/lib/stdio.o
+                0x0000000000104004                digits
+                0x0000000000104008                upper_digits
+ .data          0x000000000010400c        0x4 src/lib/stdlib.o
+                0x000000000010400c                seed
+ .data          0x0000000000104010        0x0 src/lib/string.o
+ .data          0x0000000000104010       0x1c src/lib/vga.o
+                0x0000000000104010                vga_base
+                0x0000000000104014                vga_state
+                0x0000000000104018                vga_screen
+ .data          0x000000000010402c        0x0 src/lib/list.o
+ *fill*         0x000000000010402c       0x14 
+ .data          0x0000000000104040      0x202 src/lib/ctype.o
+                0x0000000000104040                _pctype
+                0x0000000000105000                . = ALIGN (0x1000)
+ *fill*         0x0000000000104242      0xdbe 
+ *(.rodata)
+ .rodata        0x0000000000105000       0x34 src/sys/mm/vmm.o
+ .rodata        0x0000000000105034       0x47 src/sys/utils/panic.o
+ *fill*         0x000000000010507b        0x1 
+ .rodata        0x000000000010507c       0x52 src/sys/krnl/start.o
+ *fill*         0x00000000001050ce        0x2 
+ .rodata        0x00000000001050d0       0xf8 src/lib/stdio.o
+ .rodata        0x00000000001051c8       0x84 src/lib/vga.o
+                0x0000000000106000                . = ALIGN (0x1000)
+ *fill*         0x000000000010524c      0xdb4 
+
+.igot.plt       0x0000000000106000        0x0
+ .igot.plt      0x0000000000000000        0x0 src/sys/mm/vmm.o
+
+.bss            0x0000000000106000     0xa446
+                0x0000000000106000                bss = .
+ *(.bss)
+ .bss           0x0000000000106000        0x0 src/sys/mm/vmm.o
+ .bss           0x0000000000106000        0x4 src/sys/mm/heap.o
+                0x0000000000106000                heap_first
+ .bss           0x0000000000106004        0x0 src/sys/mm/pmm.o
+ .bss           0x0000000000106004        0x0 src/sys/utils/panic.o
+ .bss           0x0000000000106004        0x0 src/sys/krnl/gdt.o
+ .bss           0x0000000000106004        0x0 src/sys/krnl/start.o
+ *fill*         0x0000000000106004       0x1c 
+ .bss           0x0000000000106020       0x20 src/sys/krnl/krnl.o
+                0x0000000000106020                console
+ .bss           0x0000000000106040        0x0 src/sys/krnl/idt.o
+ .bss           0x0000000000106040        0x0 src/lib/assert.o
+ .bss           0x0000000000106040        0x0 src/lib/crypt.o
+ .bss           0x0000000000106040        0x0 src/lib/math.o
+ .bss           0x0000000000106040      0x800 src/lib/stdio.o
+ .bss           0x0000000000106840        0x0 src/lib/stdlib.o
+ .bss           0x0000000000106840        0x0 src/lib/string.o
+ .bss           0x0000000000106840        0x4 src/lib/vga.o
+ .bss           0x0000000000106844        0x0 src/lib/list.o
+ .bss           0x0000000000106844        0x0 src/lib/ctype.o
+ .bss           0x0000000000106844     0x8000 src/boot/boot.o
+                0x000000000010f000                . = ALIGN (0x1000)
+ *fill*         0x000000000010e844      0x7bc 
+ COMMON         0x000000000010f000        0x4 src/sys/mm/vmm.o
+                0x000000000010f000                page_directory
+ COMMON         0x000000000010f004        0x8 src/sys/mm/pmm.o
+                0x000000000010f004                pmm_mmap
+                0x000000000010f008                pmm_memsize
+ *fill*         0x000000000010f00c       0x14 
+ COMMON         0x000000000010f020      0x818 src/sys/krnl/gdt.o
+                0x000000000010f020                kgdtr
+                0x000000000010f040                kgdt
+ COMMON         0x000000000010f838        0x0 src/sys/krnl/start.o
+ *fill*         0x000000000010f838        0x8 
+ COMMON         0x000000000010f840      0xc06 src/sys/krnl/idt.o
+                0x000000000010f840                interrupt_handlers
+                0x000000000010fc40                kidt
+                0x0000000000110440                kidtr
+                0x0000000000110446                end = .
+LOAD src/sys/mm/vmm.o
+LOAD src/sys/mm/heap.o
+LOAD src/sys/mm/pmm.o
+LOAD src/sys/utils/panic.o
+LOAD src/sys/krnl/gdt.o
+LOAD src/sys/krnl/start.o
+LOAD src/sys/krnl/krnl.o
+LOAD src/sys/krnl/idt.o
+LOAD src/lib/assert.o
+LOAD src/lib/crypt.o
+LOAD src/lib/math.o
+LOAD src/lib/stdio.o
+LOAD src/lib/stdlib.o
+LOAD src/lib/string.o
+LOAD src/lib/vga.o
+LOAD src/lib/list.o
+LOAD src/lib/ctype.o
+LOAD src/sys/krnl/idt_s.o
+LOAD src/boot/boot.o
+OUTPUT(kiwios-kernel elf32-i386)
+
+.debug_info     0x0000000000000000     0x288d
+ .debug_info    0x0000000000000000      0x51e src/sys/mm/vmm.o
+ .debug_info    0x000000000000051e      0x371 src/sys/mm/heap.o
+ .debug_info    0x000000000000088f      0x191 src/sys/mm/pmm.o
+ .debug_info    0x0000000000000a20       0xac src/sys/utils/panic.o
+ .debug_info    0x0000000000000acc      0x1cd src/sys/krnl/gdt.o
+ .debug_info    0x0000000000000c99      0x2ed src/sys/krnl/start.o
+ .debug_info    0x0000000000000f86      0x14c src/sys/krnl/krnl.o
+ .debug_info    0x00000000000010d2      0x32d src/sys/krnl/idt.o
+ .debug_info    0x00000000000013ff       0xb9 src/lib/assert.o
+ .debug_info    0x00000000000014b8       0x71 src/lib/math.o
+ .debug_info    0x0000000000001529      0x40e src/lib/stdio.o
+ .debug_info    0x0000000000001937      0x2ec src/lib/stdlib.o
+ .debug_info    0x0000000000001c23      0x3bb src/lib/string.o
+ .debug_info    0x0000000000001fde      0x375 src/lib/vga.o
+ .debug_info    0x0000000000002353      0x4ec src/lib/list.o
+ .debug_info    0x000000000000283f       0x4e src/lib/ctype.o
+
+.debug_abbrev   0x0000000000000000      0xec6
+ .debug_abbrev  0x0000000000000000      0x182 src/sys/mm/vmm.o
+ .debug_abbrev  0x0000000000000182      0x17a src/sys/mm/heap.o
+ .debug_abbrev  0x00000000000002fc       0xce src/sys/mm/pmm.o
+ .debug_abbrev  0x00000000000003ca       0x70 src/sys/utils/panic.o
+ .debug_abbrev  0x000000000000043a       0xd7 src/sys/krnl/gdt.o
+ .debug_abbrev  0x0000000000000511       0xff src/sys/krnl/start.o
+ .debug_abbrev  0x0000000000000610       0x89 src/sys/krnl/krnl.o
+ .debug_abbrev  0x0000000000000699      0x10a src/sys/krnl/idt.o
+ .debug_abbrev  0x00000000000007a3       0x6b src/lib/assert.o
+ .debug_abbrev  0x000000000000080e       0x59 src/lib/math.o
+ .debug_abbrev  0x0000000000000867      0x155 src/lib/stdio.o
+ .debug_abbrev  0x00000000000009bc      0x150 src/lib/stdlib.o
+ .debug_abbrev  0x0000000000000b0c       0xd8 src/lib/string.o
+ .debug_abbrev  0x0000000000000be4      0x14d src/lib/vga.o
+ .debug_abbrev  0x0000000000000d31      0x157 src/lib/list.o
+ .debug_abbrev  0x0000000000000e88       0x3e src/lib/ctype.o
+
+.debug_aranges  0x0000000000000000      0x1f0
+ .debug_aranges
+                0x0000000000000000       0x20 src/sys/mm/vmm.o
+ .debug_aranges
+                0x0000000000000020       0x20 src/sys/mm/heap.o
+ .debug_aranges
+                0x0000000000000040       0x20 src/sys/mm/pmm.o
+ .debug_aranges
+                0x0000000000000060       0x20 src/sys/utils/panic.o
+ .debug_aranges
+                0x0000000000000080       0x20 src/sys/krnl/gdt.o
+ .debug_aranges
+                0x00000000000000a0       0x20 src/sys/krnl/start.o
+ .debug_aranges
+                0x00000000000000c0       0x18 src/sys/krnl/krnl.o
+ .debug_aranges
+                0x00000000000000d8       0x20 src/sys/krnl/idt.o
+ .debug_aranges
+                0x00000000000000f8       0x20 src/lib/assert.o
+ .debug_aranges
+                0x0000000000000118       0x20 src/lib/math.o
+ .debug_aranges
+                0x0000000000000138       0x20 src/lib/stdio.o
+ .debug_aranges
+                0x0000000000000158       0x20 src/lib/stdlib.o
+ .debug_aranges
+                0x0000000000000178       0x20 src/lib/string.o
+ .debug_aranges
+                0x0000000000000198       0x20 src/lib/vga.o
+ .debug_aranges
+                0x00000000000001b8       0x20 src/lib/list.o
+ .debug_aranges
+                0x00000000000001d8       0x18 src/lib/ctype.o
+
+.debug_line     0x0000000000000000      0xb16
+ .debug_line    0x0000000000000000       0xc0 src/sys/mm/vmm.o
+ .debug_line    0x00000000000000c0       0xf3 src/sys/mm/heap.o
+ .debug_line    0x00000000000001b3       0xb3 src/sys/mm/pmm.o
+ .debug_line    0x0000000000000266       0x4f src/sys/utils/panic.o
+ .debug_line    0x00000000000002b5       0x80 src/sys/krnl/gdt.o
+ .debug_line    0x0000000000000335       0xa5 src/sys/krnl/start.o
+ .debug_line    0x00000000000003da       0x5e src/sys/krnl/krnl.o
+ .debug_line    0x0000000000000438      0x11e src/sys/krnl/idt.o
+ .debug_line    0x0000000000000556       0x42 src/lib/assert.o
+ .debug_line    0x0000000000000598        0x0 src/lib/crypt.o
+ .debug_line    0x0000000000000598       0x48 src/lib/math.o
+ .debug_line    0x00000000000005e0      0x119 src/lib/stdio.o
+ .debug_line    0x00000000000006f9       0xb2 src/lib/stdlib.o
+ .debug_line    0x00000000000007ab      0x136 src/lib/string.o
+ .debug_line    0x00000000000008e1      0x10e src/lib/vga.o
+ .debug_line    0x00000000000009ef       0xf7 src/lib/list.o
+ .debug_line    0x0000000000000ae6       0x30 src/lib/ctype.o
+
+.debug_str      0x0000000000000000      0xa42
+ .debug_str     0x0000000000000000      0x265 src/sys/mm/vmm.o
+                                        0x2c0 (size before relaxing)
+ .debug_str     0x0000000000000265       0xe4 src/sys/mm/heap.o
+                                        0x286 (size before relaxing)
+ .debug_str     0x0000000000000349       0x75 src/sys/mm/pmm.o
+                                        0x193 (size before relaxing)
+ .debug_str     0x00000000000003be       0x27 src/sys/utils/panic.o
+                                        0x12f (size before relaxing)
+ .debug_str     0x00000000000003e5       0xaa src/sys/krnl/gdt.o
+                                        0x1da (size before relaxing)
+ .debug_str     0x000000000000048f      0x140 src/sys/krnl/start.o
+                                        0x2cd (size before relaxing)
+ .debug_str     0x00000000000005cf       0x14 src/sys/krnl/krnl.o
+                                        0x188 (size before relaxing)
+ .debug_str     0x00000000000005e3       0xa6 src/sys/krnl/idt.o
+                                        0x25a (size before relaxing)
+ .debug_str     0x0000000000000689       0x26 src/lib/assert.o
+                                        0x132 (size before relaxing)
+ .debug_str     0x00000000000006af        0x0 src/lib/crypt.o
+ .debug_str     0x00000000000006af       0x26 src/lib/math.o
+                                         0xc0 (size before relaxing)
+ .debug_str     0x00000000000006d5       0x57 src/lib/stdio.o
+                                        0x21c (size before relaxing)
+ .debug_str     0x000000000000072c       0x60 src/lib/stdlib.o
+                                        0x1b8 (size before relaxing)
+ .debug_str     0x000000000000078c       0x83 src/lib/string.o
+                                        0x1c5 (size before relaxing)
+ .debug_str     0x000000000000080f      0x107 src/lib/vga.o
+                                        0x2ab (size before relaxing)
+ .debug_str     0x0000000000000916      0x114 src/lib/list.o
+                                        0x27e (size before relaxing)
+ .debug_str     0x0000000000000a2a       0x18 src/lib/ctype.o
+                                         0xc9 (size before relaxing)
+
+.comment        0x0000000000000000       0x27
+ .comment       0x0000000000000000       0x27 src/sys/mm/vmm.o
+                                         0x28 (size before relaxing)
+ .comment       0x0000000000000000       0x28 src/sys/mm/heap.o
+ .comment       0x0000000000000000       0x28 src/sys/mm/pmm.o
+ .comment       0x0000000000000000       0x28 src/sys/utils/panic.o
+ .comment       0x0000000000000000       0x28 src/sys/krnl/gdt.o
+ .comment       0x0000000000000000       0x28 src/sys/krnl/start.o
+ .comment       0x0000000000000000       0x28 src/sys/krnl/krnl.o
+ .comment       0x0000000000000000       0x28 src/sys/krnl/idt.o
+ .comment       0x0000000000000000       0x28 src/lib/assert.o
+ .comment       0x0000000000000000       0x28 src/lib/crypt.o
+ .comment       0x0000000000000000       0x28 src/lib/math.o
+ .comment       0x0000000000000000       0x28 src/lib/stdio.o
+ .comment       0x0000000000000000       0x28 src/lib/stdlib.o
+ .comment       0x0000000000000000       0x28 src/lib/string.o
+ .comment       0x0000000000000000       0x28 src/lib/vga.o
+ .comment       0x0000000000000000       0x28 src/lib/list.o
+ .comment       0x0000000000000000       0x28 src/lib/ctype.o
+
+.note.GNU-stack
+                0x0000000000000000        0x0
+ .note.GNU-stack
+                0x0000000000000000        0x0 src/sys/mm/vmm.o
+ .note.GNU-stack
+                0x0000000000000000        0x0 src/sys/mm/heap.o
+ .note.GNU-stack
+                0x0000000000000000        0x0 src/sys/mm/pmm.o
+ .note.GNU-stack
+                0x0000000000000000        0x0 src/sys/utils/panic.o
+ .note.GNU-stack
+                0x0000000000000000        0x0 src/sys/krnl/gdt.o
+ .note.GNU-stack
+                0x0000000000000000        0x0 src/sys/krnl/start.o
+ .note.GNU-stack
+                0x0000000000000000        0x0 src/sys/krnl/krnl.o
+ .note.GNU-stack
+                0x0000000000000000        0x0 src/sys/krnl/idt.o
+ .note.GNU-stack
+                0x0000000000000000        0x0 src/lib/assert.o
+ .note.GNU-stack
+                0x0000000000000000        0x0 src/lib/crypt.o
+ .note.GNU-stack
+                0x0000000000000000        0x0 src/lib/math.o
+ .note.GNU-stack
+                0x0000000000000000        0x0 src/lib/stdio.o
+ .note.GNU-stack
+                0x0000000000000000        0x0 src/lib/stdlib.o
+ .note.GNU-stack
+                0x0000000000000000        0x0 src/lib/string.o
+ .note.GNU-stack
+                0x0000000000000000        0x0 src/lib/vga.o
+ .note.GNU-stack
+                0x0000000000000000        0x0 src/lib/list.o
+ .note.GNU-stack
+                0x0000000000000000        0x0 src/lib/ctype.o
