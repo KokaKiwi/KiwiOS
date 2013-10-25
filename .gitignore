@@ -1,0 +1,7 @@
+# Build stuff
+build
+kiwios.bin
+
+# Misc stuff
+.*
+!.gitignore
