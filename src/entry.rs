@@ -8,13 +8,12 @@
 #[no_std];
 #[feature(globs)];
 
-use core::option::*;
-
 #[path = "rust-core/core/mod.rs"]
 mod core;
+mod io;
 
 #[no_mangle]
-pub unsafe fn start()
+pub fn start()
 {
     loop {}
 }
